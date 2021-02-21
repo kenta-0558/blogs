@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import Contact from './components/Contact';
+import Header from './components/Header';
+import Home from './components/Home';
+import NotFound from './components/NotFound';
+import Post from './components/Post';
+import Container from '@material-ui/core/Container';
+import { createMuiTheme, makeStyles, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
+import { Router } from "@reach/router";
 
-function App() {
+
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
+
+const useStyles = makeStyles(theme => ({
+  mainContainer: theme.mixins.toolbar,
+}));
+
+const App = () => {
+
+  const classes = useStyles();
+
+  useEffect(() => {
+    document.title = "Posts";
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+
+        <Header/>
+
+        <Container maxWidth="md" className={classes.mainContainer}>
+        <Router>
+          <Home path="/"/>
+          <Contact path="contact" />
+          <Post path="post/:postId"/>
+          <NotFound path="pageNotFound" />
+        </Router>
+      </Container>
+      
+    </ThemeProvider>  
   );
-}
+};
 
 export default App;
+ 
